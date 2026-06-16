@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dead Man's Switch</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6/dist/ethers.umd.min.js"></script>
+</head>
+<body>
+<div class="container">
+<h1> Dead Man's Switch</h1>
+<p style="text-align:center;margin-bottom:30px;color:#94a3b8;";class="subtitle">
+Blockchain inheritance powered by Ethereum
+</p>
+
+<div class="card">
+
+    <h2>Owner Panel</h2>
+
+    <button id="connectBtn">
+        Connect Wallet
+    </button>
+
+    <p id="walletAddress"></p>
+
+    <p>
+      <p>
+Status:
+<span id="status">
+Loading...
+</span>
+</p>
+
+    <p>
+Time Remaining:
+<span id="countdown">
+Loading...
+</span>
+</p>
+    </p>
+
+    <button id="checkInBtn">
+        Check In
+    </button>
+
+    <br><br>
+
+    <input
+        id="depositAmount"
+        placeholder="ETH Amount"
+    />
+
+    <button id="depositBtn">
+        Deposit ETH
+    </button>
+
+    <br><br>
+
+    <input
+        id="beneficiaryAddress"
+        placeholder="Beneficiary Address"
+    />
+
+    <input
+        id="share"
+        placeholder="Share %"
+    />
+
+    <button id="addBeneficiaryBtn">
+        Add Beneficiary
+    </button>
+
+</div>
+
+<hr>
+
+<div class="card">
+
+    <h2>Beneficiary Panel</h2>
+
+    <button id="claimBtn">
+        Claim
+    </button>
+
+</div>
+<button id="cancelBtn">
+Cancel Switch
+</button>
+
+<p>
+Contract Balance:
+<span id="balance">
+0
+</span>
+ETH
+</p>
+<script type="module" src="app.js"></script>
+</div>
+</body>
+</html>
