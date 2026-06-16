@@ -4,6 +4,12 @@ import {
 }
 from "./abi.js";
 
+import {
+    FACTORY_ADDRESS,
+    FACTORY_ABI
+}
+from "./frontendAbi.js";
+let factory;
 let provider;
 let signer;
 let contract;
@@ -33,7 +39,23 @@ async () => {
 
     signer =
     await provider.getSigner();
+    factory =
+new ethers.Contract(
+    FACTORY_ADDRESS,
+    FACTORY_ABI,
+    signer
+);
+console.log("FACTORY CREATED");
+console.log(factory);
+const bal =
+await provider.getBalance(
+    CONTRACT_ADDRESS
+);
 
+document
+.getElementById("balance")
+.innerText =
+ethers.formatEther(bal);
     contract =
     new ethers.Contract(
         CONTRACT_ADDRESS,
@@ -221,16 +243,88 @@ async ()=>{
     loadStatus();
 };
 
-const bal =
-await provider.getBalance(
-    CONTRACT_ADDRESS
-);
+
 
 document
 .getElementById(
-"balance"
+"deploySwitchBtn"
 )
-.innerText =
-ethers.formatEther(
-    bal
-);
+.onclick =
+async ()=>{
+
+    console.log(
+        "DEPLOY CLICKED"
+    );
+
+    console.log(
+        factory
+    );
+
+    const interval =
+    document
+    .getElementById(
+        "intervalInput"
+    ).value;
+
+    const grace =
+    document
+    .getElementById(
+        "graceInput"
+    ).value;
+
+    console.log(
+        interval,
+        grace
+    );
+
+    const tx =
+    await factory
+    .createSwitch(
+        interval,
+        grace
+    );
+
+    await tx.wait();
+
+    alert(
+        "Switch Deployed"
+    );
+};
+document
+.getElementById(
+"loadSwitchesBtn"
+)
+.onclick =
+async ()=>{
+
+    const owner =
+    await signer.getAddress();
+
+    const switches =
+    await factory
+    .getSwitchesByOwner(
+        owner
+    );
+
+    const list =
+    document
+    .getElementById(
+        "switchList"
+    );
+
+    list.innerHTML = "";
+
+    switches.forEach(
+        addr => {
+
+        const li =
+        document
+        .createElement("li");
+
+        li.innerText =
+        addr;
+
+        list.appendChild(li);
+
+    });
+};

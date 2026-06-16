@@ -2,13 +2,13 @@
 pragma solidity ^0.8.20;
 
 import "forge-std/Script.sol";
-import "../src/DeadMansSwitch.sol";
+import "../src/SwitchFactory.sol";
 
-contract Deploy is Script {
+contract DeployFactory is Script {
     function run() external {
         vm.startBroadcast();
 
-        DeadMansSwitch dms = new DeadMansSwitch(3600, 1800);
+        new SwitchFactory();
 
         vm.stopBroadcast();
     }

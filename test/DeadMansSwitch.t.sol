@@ -6,55 +6,34 @@ import "../src/DeadMansSwitch.sol";
 import "forge-std/console.sol";
 
 contract DeadMansSwitchTest is Test {
-
     DeadMansSwitch dms;
     receive() external payable {}
+
     function setUp() public {
-        dms = new DeadMansSwitch(
-            3600,
-            1800
-        );
+        dms = new DeadMansSwitch(3600, 1800);
     }
+
     function testCancel() public {
+        console.log(uint256(dms.status()));
 
-    console.log(
-        uint256(dms.status())
-    );
+        dms.cancel();
 
-    dms.cancel();
+        assertEq(uint256(dms.status()), 3);
+    }
 
-    assertEq(
-        uint256(dms.status()),
-        3
-    );
-}
     function testCheckIn() public {
-
-        vm.warp(
-            block.timestamp + 100
-        );
+        vm.warp(block.timestamp + 100);
 
         dms.checkIn();
 
-        assertEq(
-            dms.lastCheckIn(),
-            block.timestamp
-        );
+        assertEq(dms.lastCheckIn(), block.timestamp);
     }
 
     function testTriggerGracePeriod() public {
-
-        vm.warp(
-            block.timestamp + 3601
-        );
+        vm.warp(block.timestamp + 3601);
 
         dms.triggerGracePeriod();
 
-        assertEq(
-            uint256(
-                dms.status()
-            ),
-            1
-        );
+        assertEq(uint256(dms.status()), 1);
     }
 }
